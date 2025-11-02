@@ -104,14 +104,18 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
+# --- PowerShell 7-style Zsh prompt with Git ---
+
+# Function to convert UNIX path → Windows-style
 prompt_path() {
   local path="$PWD"
-  local home="$HOME"
   local win_home="C:\\Users\\$USER"
 
-  if [[ "$path" == "$home"* ]]; then
-    path="${path/#$home/$win_home}"
+  if [[ "$path" == "$HOME"* ]]; then
+    # Replace home directory correctly
+    path="${path/#$HOME/$win_home}"
   else
+    # Prepend C:\ and remove leading slash
     path="C:\\${path#/}"
   fi
 
@@ -126,5 +130,5 @@ git_branch() {
   [[ -n $branch ]] && echo " %F{yellow}[$branch]%f"
 }
 
-# Set prompt
+# Set Zsh prompt
 PROMPT='%F{blue}PS %F{cyan}$(prompt_path)$(git_branch)%f> '
